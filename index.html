@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>やきそば予約サイト</title>
+    <title>肉野菜炒め予約サイト</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,8 +28,8 @@
     </style>
 </head>
 <body>
-    <h1>やきそば予約サイト</h1>
-    <div id="remainingItems">のこり 4個</div>
+    <h1>肉野菜炒め予約サイト</h1>
+    <div id="remainingItems">のこり 10個</div>
     <div id="soldOut">予約販売は終了しました</div>
     <form id="reservationForm">
         <label for="nickname">ニックネーム：</label>
@@ -37,17 +37,17 @@
         
         <label for="product">商品：</label>
         <select id="product" name="product" required>
-            <option value="やきそば">やきそば</option>
+            <option value="肉野菜炒め">肉野菜炒め</option>
         </select><br><br>
         
         <label for="quantity">個数：</label>
-        <input type="number" id="quantity" name="quantity" min="1" max="4" required><br><br>
+        <input type="number" id="quantity" name="quantity" min="1" max="10" required><br><br>
         
         <input type="submit" value="予約メールを送信する">
     </form>
 
     <script>
-        let remainingItems = 4;
+        let remainingItems = 10;
         const form = document.getElementById('reservationForm');
         const remainingItemsElement = document.getElementById('remainingItems');
         const soldOutElement = document.getElementById('soldOut');
