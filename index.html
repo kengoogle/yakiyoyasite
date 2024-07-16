@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>やきそば予約サイト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #remainingItems {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        #soldOut {
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            display: none;
+        }
+        #reservationForm {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>やきそば予約サイト</h1>
+    <div id="remainingItems">のこり 4個</div>
+    <div id="soldOut">予約販売は終了しました</div>
+    <form id="reservationForm">
+        <label for="nickname">ニックネーム：</label>
+        <input type="text" id="nickname" name="nickname" required><br><br>
+        
+        <label for="product">商品：</label>
+        <select id="product" name="product" required>
+            <option value="やきそば">やきそば</option>
+        </select><br><br>
+        
+        <label for="quantity">個数：</label>
+        <input type="number" id="quantity" name="quantity" min="1" max="4" required><br><br>
+        
+        <input type="submit" value="予約メールを送信する">
+    </form>
+
+    <script>
+        let remainingItems = 4;
+        const form = document.getElementById('reservationForm');
+        const remainingItemsElement = document.getElementById('remainingItems');
+        const soldOutElement = document.getElementById('soldOut');
+
+        function updateRemainingItems() {
+            if (remainingItems > 0) {
+                remainingItemsElement.textContent = `のこり ${remainingItems}個`;
+                form.style.display = 'block';
+                soldOutElement.style.display = 'none';
+            } else {
+                remainingItemsElement.style.display = 'none';
+                soldOutElement.style.display = 'block';
+                form.style.display = 'none';
+            }
+        }
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nickname = document.getElementById('nickname').value;
+            const product = document.getElementById('product').value;
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (quantity > remainingItems) {
+                alert('在庫が足りません。残り個数以下の数量を入力してください。');
+                return;
+            }
+
+            remainingItems -= quantity;
+            updateRemainingItems();
+
+            const subject = encodeURIComponent(`${product}の予約`);
+            const body = encodeURIComponent(`
+ニックネーム: ${nickname}
+商品: ${product}
+個数: ${quantity}
+残り: ${remainingItems}個
+
+この予約は${new Date().toLocaleString('ja-JP')}に行われました。
+            `);
+            const mailtoLink = `mailto:teamkimi777@gmail.com?subject=${subject}&body=${body}`;
+            
+            window.location.href = mailtoLink;
+            
+            form.reset();
+        });
+
+        updateRemainingItems();
+    </script>
+</body>
+</html>
